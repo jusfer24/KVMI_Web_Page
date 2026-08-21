@@ -1,0 +1,92 @@
+---
+/*
+  AR Experience - Estructura base (Fase 3).
+  Contenedor preparado para escalar: el atributo data-ar-portal es el punto
+  de montaje de la futura experiencia WebXR / model-viewer. El SVG actua
+  como placeholder visual del cacao 3D.
+*/
+import type { Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+  /* compact: banda dentro de una pagina; full: seccion protagonista */
+  variant?: "full" | "compact";
+}
+
+const { lang, variant = "full" } = Astro.props;
+
+const copy = {
+  en: {
+    label: "AR Experience",
+    title: "Activate the Ritual in your space",
+    subtitle: "Explore the cacao in 3D, discover its origin and unlock ceremonial steps.",
+    scan: "Scan your box. Awaken the story.",
+    cta: "Explore in AR",
+    soon: "Coming soon",
+  },
+  es: {
+    label: "AR Experience",
+    title: "Activa el Ritual en tu espacio",
+    subtitle: "Explora el cacao en 3D, descubre su origen y desbloquea pasos ceremoniales.",
+    scan: "Escanea tu caja. Despierta la historia.",
+    cta: "Explorar en AR",
+    soon: "Proximamente",
+  },
+};
+
+const t = copy[lang];
+---
+
+<div
+  data-ar-portal
+  class:list={[
+    "relative overflow-hidden border border-gold-deep/30 bg-cacao/20 text-center",
+    variant === "full" ? "px-8 py-20" : "px-8 py-12",
+  ]}
+>
+  {/* Placeholder SVG del cacao 3D (contingencia visual) */}
+  <svg
+    viewBox="0 0 120 160"
+    class:list={["mx-auto", variant === "full" ? "h-36" : "h-24"]}
+    aria-hidden="true"
+  >
+    <defs>
+      <linearGradient id="kvmi-pod-gold" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#B28A00"></stop>
+        <stop offset="50%" stop-color="#F6D300"></stop>
+        <stop offset="100%" stop-color="#CE8B00"></stop>
+      </linearGradient>
+    </defs>
+    <ellipse cx="60" cy="80" rx="34" ry="56" fill="none" stroke="url(#kvmi-pod-gold)" stroke-width="1.5"></ellipse>
+    <path d="M60 24 C 48 60, 48 100, 60 136" fill="none" stroke="url(#kvmi-pod-gold)" stroke-width="1" opacity="0.7"></path>
+    <path d="M60 24 C 72 60, 72 100, 60 136" fill="none" stroke="url(#kvmi-pod-gold)" stroke-width="1" opacity="0.7"></path>
+    <path d="M42 40 C 38 68, 38 92, 42 120" fill="none" stroke="url(#kvmi-pod-gold)" stroke-width="0.8" opacity="0.5"></path>
+    <path d="M78 40 C 82 68, 82 92, 78 120" fill="none" stroke="url(#kvmi-pod-gold)" stroke-width="0.8" opacity="0.5"></path>
+    <circle cx="60" cy="14" r="2.5" fill="url(#kvmi-pod-gold)" opacity="0.9"></circle>
+    <circle cx="92" cy="52" r="1.5" fill="url(#kvmi-pod-gold)" opacity="0.6"></circle>
+    <circle cx="28" cy="108" r="1.5" fill="url(#kvmi-pod-gold)" opacity="0.6"></circle>
+  </svg>
+
+  <p class="mt-6 text-[0.65rem] uppercase tracking-luxe text-gold-deep">{t.label}</p>
+  <h3
+    class:list={[
+      "mx-auto mt-4 max-w-xl font-display font-medium text-mist",
+      variant === "full" ? "text-3xl md:text-4xl" : "text-2xl",
+    ]}
+  >
+    {t.title}
+  </h3>
+  <p class="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-mist/60">{t.subtitle}</p>
+  <p class="mt-3 font-display text-sm italic text-gold-deep">{t.scan}</p>
+
+  <button
+    type="button"
+    disabled
+    class="mt-8 inline-flex cursor-not-allowed items-center gap-3 border border-gold-deep/60 px-8 py-3.5 text-[0.65rem] uppercase tracking-luxe text-mist/70"
+  >
+    {t.cta}
+    <span class="border border-white/10 px-2 py-0.5 text-[0.5rem] tracking-wide-luxe text-stone">
+      {t.soon}
+    </span>
+  </button>
+</div>

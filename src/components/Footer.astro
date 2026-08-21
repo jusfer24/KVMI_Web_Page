@@ -1,0 +1,108 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/images/Logos/Logo_KVMI.png";
+import {
+  getLangFromUrl,
+  localizePath,
+  switchLangPath,
+  useTranslations,
+  languages,
+  type Lang,
+} from "../i18n/ui";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<footer class="border-t border-white/5 bg-night">
+  <div class="mx-auto max-w-7xl px-6 py-16 lg:px-10">
+    <div class="grid gap-12 md:grid-cols-3">
+      <div>
+        <Image src={logo} alt="KVMI" class="h-20 w-auto object-contain" />
+        <p class="mt-6 max-w-xs text-sm leading-relaxed text-stone">
+          {t("footer.tagline")}
+        </p>
+      </div>
+
+      <div>
+        <h3 class="text-[0.65rem] uppercase tracking-luxe text-gold-deep">
+          {t("footer.gallery")}
+        </h3>
+        <ul class="mt-6 space-y-3 text-sm text-mist/70">
+          <li>
+            <a href={localizePath(lang, "/the-origin")} class="transition-colors hover:text-gold">
+              {t("nav.origin")}
+            </a>
+          </li>
+          <li>
+            <a href={localizePath(lang, "/collections")} class="transition-colors hover:text-gold">
+              {t("nav.collections")}
+            </a>
+          </li>
+          <li>
+            <a href={localizePath(lang, "/el-ritual")} class="transition-colors hover:text-gold">
+              {t("nav.ritual")}
+            </a>
+          </li>
+          <li>
+            <a
+              href={localizePath(lang, "/exclusive-handicrafts")}
+              class="transition-colors hover:text-gold"
+            >
+              {t("nav.handicrafts")}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-[0.65rem] uppercase tracking-luxe text-gold-deep">
+          {t("footer.concierge")}
+        </h3>
+        <ul class="mt-6 space-y-3 text-sm text-mist/70">
+          <li>
+            <a href={localizePath(lang, "/contact")} class="transition-colors hover:text-gold">
+              {t("nav.contact")}
+            </a>
+          </li>
+          <li>
+            <a href={localizePath(lang, "/checkout")} class="transition-colors hover:text-gold">
+              {t("footer.hotelDelivery")}
+            </a>
+          </li>
+          <li class="text-stone">{t("footer.location")}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="gold-rule mt-16"></div>
+
+    <div class="mt-8 flex justify-center">
+      <div class="flex items-center border border-stone/40 text-[0.6rem] uppercase tracking-wide-luxe">
+        {
+          (Object.keys(languages) as Lang[]).map((code) => (
+            <a
+              href={switchLangPath(Astro.url.pathname, code)}
+              aria-current={code === lang ? "true" : undefined}
+              class:list={[
+                "px-4 py-2 transition-colors",
+                code === lang
+                  ? "bg-gold-gradient font-semibold text-night"
+                  : "text-stone hover:text-gold",
+              ]}
+            >
+              {languages[code]}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <p class="mt-8 text-center font-display text-sm italic text-gold-deep">
+      {t("brand.claim")}
+    </p>
+    <p class="mt-4 text-center text-[0.65rem] uppercase tracking-wide-luxe text-stone">
+      {t("footer.rights")}
+    </p>
+  </div>
+</footer>

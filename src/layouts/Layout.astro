@@ -1,0 +1,151 @@
+---
+import { ClientRouter } from "astro:transitions";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Concierge from "../components/react/Concierge.tsx";
+import { getLangFromUrl } from "../i18n/ui";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const lang = getLangFromUrl(Astro.url);
+
+const defaults = {
+  en: {
+    title: "KVMI Digital Gallery",
+    description:
+      "A digital gallery of fine aroma cacao experiences. Single origin, limited series, Ecuador.",
+  },
+  es: {
+    title: "KVMI Digital Gallery",
+    description:
+      "Galeria digital de experiencias de cacao fino de aroma. Origen unico, series limitadas, Ecuador.",
+  },
+};
+
+const { title = defaults[lang].title, description = defaults[lang].description } =
+  Astro.props;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Quicksand:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <ClientRouter />
+  </head>
+  <body class="min-h-screen bg-night font-sans text-mist">
+    <Nav />
+    <main class="pt-[88px]">
+      <slot />
+    </main>
+    <Footer />
+    <Concierge client:load lang={lang} transition:persist="kvmi-concierge" />
+
+    <script>
+      /* Revelado en scroll y parallax sutil. Se re-inicializa en cada
+         navegacion de Astro (astro:page-load). */
+      function initMotion() {
+        const revealed = document.querySelectorAll<HTMLElement>(".reveal");
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.12 },
+        );
+        revealed.forEach((el) => observer.observe(el));
+
+        const parallaxEls = document.querySelectorAll<HTMLElement>("[data-parallax]");
+        if (parallaxEls.length === 0) return;
+
+        const prefersReduced = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+        if (prefersReduced) return;
+
+        let ticking = false;
+        function onScroll() {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(() => {
+            const viewportH = window.innerHeight;
+            parallaxEls.forEach((el) => {
+              const speed = parseFloat(el.dataset.parallax || "0.15");
+              const rect = el.getBoundingClientRect();
+              const offset = (rect.top + rect.height / 2 - viewportH / 2) * speed;
+              el.style.transform = `translateY(${offset.toFixed(1)}px)`;
+            });
+            ticking = false;
+          });
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+      }
+
+      initMotion();
+      document.addEventListener("astro:page-load", initMotion);
+
+      /* Preview de producto: alterna automaticamente entre las fotos
+         apiladas (ver ProductPreview.astro) con un crossfade suave, dando
+         el efecto de paneo tipo carrusel mientras la pieza esta a la vista. */
+      let kvmiPreviewIntervals: number[] = [];
+
+      function initProductPreviews() {
+        const containers = document.querySelectorAll<HTMLElement>(
+          '[data-kvmi-preview="true"]',
+        );
+        containers.forEach((container, containerIndex) => {
+          if (container.dataset.previewBound === "true") return;
+          container.dataset.previewBound = "true";
+
+          const slides = Array.from(container.querySelectorAll<HTMLElement>("img"));
+          if (slides.length < 2) return;
+
+          let index = 0;
+          const start = window.setTimeout(() => {
+            const id = window.setInterval(() => {
+              slides[index].style.opacity = "0";
+              index = (index + 1) % slides.length;
+              slides[index].style.opacity = "1";
+            }, 4200);
+            kvmiPreviewIntervals.push(id);
+          }, containerIndex * 650);
+          kvmiPreviewIntervals.push(start);
+        });
+      }
+
+      function clearProductPreviews() {
+        kvmiPreviewIntervals.forEach((id) => {
+          window.clearInterval(id);
+          window.clearTimeout(id);
+        });
+        kvmiPreviewIntervals = [];
+      }
+
+      initProductPreviews();
+      document.addEventListener("astro:page-load", initProductPreviews);
+      document.addEventListener("astro:before-swap", clearProductPreviews);
+    </script>
+  </body>
+</html>

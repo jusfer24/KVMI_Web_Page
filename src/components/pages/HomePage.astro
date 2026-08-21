@@ -1,0 +1,297 @@
+---
+import { Image } from "astro:assets";
+import ARPortal from "../ARPortal.astro";
+import ProductPreview from "../ProductPreview.astro";
+import { products, featuredSlugs, formatPrice, getCollection } from "../../lib/catalog";
+import { localizePath, type Lang } from "../../i18n/ui";
+import originBg from "../../assets/images/History/History_KVMI_BG.jpg";
+import sofitel from "../../assets/images/Demostrations/SOFITEL.jpg";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const p = (path: string) => localizePath(lang, path);
+
+const featured = featuredSlugs
+  .map((slug) => products.find((prod) => prod.slug === slug))
+  .filter((prod): prod is NonNullable<typeof prod> => Boolean(prod));
+
+const copy = {
+  en: {
+    kicker: "Ecuador. Rare Amazonian cacao",
+    h1a: "The experience where flavor and origin",
+    h1b: "become ritual.",
+    h2: "An ancestral journey guided by technology.",
+    micro: "Breathe. Observe. Feel. The ritual begins here.",
+    ctaRitual: "Iniciar Ritual",
+    ctaOrigin: "Discover the Origin",
+    positioningKicker: "Positioning",
+    positioning: [
+      {
+        title: "Exclusive Gift",
+        text: "High quality chocolates made from a rare Amazonian cocoa bean.",
+      },
+      {
+        title: "Sophisticated Taste",
+        text: "Four different profiles, perfect for pairing with other fine products.",
+      },
+      {
+        title: "Elegant Experience",
+        text: "An Augmented Reality and Mixed Reality gift.",
+      },
+    ],
+    selection: "The selection",
+    pieces: "Our Pieces",
+    viewAll: "View all collections",
+    discover: "Discover the piece",
+    originKicker: "The Origin",
+    originTitle: "Where the cacao of the tribe chiefs is born.",
+    originText:
+      "Deep in the Amazon, cacao grows in hidden microlots between humidity, shadow and silence. For centuries it was the privilege of tribe chiefs: a source of clarity, energy and spiritual connection with the jungle.",
+    originCta: "Explore the Origin",
+    hotelKicker: "Deliver to my hotel",
+    hotelTitle: "Your selection awaits you in your suite.",
+    hotelText:
+      "Visiting Ecuador? Choose your piece, indicate your hotel and stay dates, and we coordinate the delivery directly with the concierge desk. No lines, no extra luggage: the KVMI experience comes to you.",
+    hotelCta: "Choose my piece",
+  },
+  es: {
+    kicker: "Ecuador. Cacao amazonico de rareza",
+    h1a: "La experiencia donde sabor y origen",
+    h1b: "se vuelven ritual.",
+    h2: "Un viaje ancestral guiado por tecnologia.",
+    micro: "Respira. Observa. Siente. El ritual comienza aqui.",
+    ctaRitual: "Iniciar Ritual",
+    ctaOrigin: "Descubrir el Origen",
+    positioningKicker: "Posicionamiento",
+    positioning: [
+      {
+        title: "Exclusive Gift",
+        text: "Chocolates de alta calidad elaborados con un raro grano de cacao amazonico.",
+      },
+      {
+        title: "Sophisticated Taste",
+        text: "Cuatro perfiles distintos, perfectos para maridar con otros productos finos.",
+      },
+      {
+        title: "Elegant Experience",
+        text: "Un obsequio de Realidad Aumentada y Realidad Mixta.",
+      },
+    ],
+    selection: "La seleccion",
+    pieces: "Piezas de la galeria",
+    viewAll: "Ver todas las colecciones",
+    discover: "Descubrir la pieza",
+    originKicker: "The Origin",
+    originTitle: "Donde nace el cacao de los jefes de tribu.",
+    originText:
+      "En lo profundo del Amazonas, el cacao crece en microlotes ocultos entre humedad, sombra y silencio. Durante siglos fue privilegio de los jefes de tribu: fuente de claridad, energia y conexion espiritual con la selva.",
+    originCta: "Explorar el Origen",
+    hotelKicker: "Deliver to my hotel",
+    hotelTitle: "Su seleccion le espera en su suite.",
+    hotelText:
+      "Visitando Ecuador? Elija su pieza, indique su hotel y sus fechas de estadia, y coordinamos la entrega directamente con conserjeria. Sin filas, sin equipaje adicional: la experiencia KVMI llega a usted.",
+    hotelCta: "Elegir mi pieza",
+  },
+};
+
+const t = copy[lang];
+---
+
+<!-- HERO: portal amazonico -->
+<section class="relative -mt-[88px] flex h-screen items-center justify-center overflow-hidden">
+  <video
+    id="hero-video"
+    class="absolute inset-0 h-full w-full object-cover opacity-40"
+    src="/videos/Presentation_KVMI_BG.mp4"
+    autoplay
+    muted
+    loop
+    playsinline
+  ></video>
+  <div class="absolute inset-0 bg-gradient-to-b from-night/60 via-night/30 to-night"></div>
+
+  <div class="relative z-10 px-6 text-center">
+    <p class="reveal text-[0.65rem] uppercase tracking-luxe text-gold-deep">
+      {t.kicker}
+    </p>
+    <h1 class="reveal reveal-delay-1 mt-6 font-display text-4xl font-medium leading-tight md:text-6xl lg:text-7xl">
+      <span class="text-gold-gradient">{t.h1a}</span>
+      <br />
+      <span class="text-mist">{t.h1b}</span>
+    </h1>
+    <p class="reveal reveal-delay-2 mt-6 font-display text-xl italic text-mist/80 md:text-2xl">
+      {t.h2}
+    </p>
+    <p class="reveal reveal-delay-2 mx-auto mt-6 max-w-xl text-sm leading-relaxed text-mist/60">
+      {t.micro}
+    </p>
+    <div class="reveal reveal-delay-3 mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
+      <a
+        href={p("/el-ritual")}
+        class="bg-gold-gradient px-10 py-4 text-[0.65rem] font-semibold uppercase tracking-luxe text-night transition-opacity hover:opacity-90"
+      >
+        {t.ctaRitual}
+      </a>
+      <a
+        href={p("/the-origin")}
+        class="border border-stone/40 px-10 py-4 text-[0.65rem] uppercase tracking-luxe text-mist transition-colors hover:border-gold-deep hover:text-gold"
+      >
+        {t.ctaOrigin}
+      </a>
+    </div>
+  </div>
+
+  <div class="absolute bottom-10 left-1/2 z-10 -translate-x-1/2">
+    <div class="h-14 w-px animate-pulse bg-gradient-to-b from-gold-deep to-transparent"></div>
+  </div>
+</section>
+
+<!-- POSICIONAMIENTO -->
+<section class="mx-auto max-w-7xl px-6 py-28 lg:px-10">
+  <p class="reveal text-center text-[0.65rem] uppercase tracking-luxe text-gold-deep">
+    {t.positioningKicker}
+  </p>
+  <div class="mt-14 grid gap-10 md:grid-cols-3">
+    {
+      t.positioning.map((item, i) => (
+        <div
+          class:list={[
+            "reveal border-t border-gold-deep/30 pt-8 text-center",
+            i === 1 && "reveal-delay-1",
+            i === 2 && "reveal-delay-2",
+          ]}
+        >
+          <h2 class="font-display text-2xl text-mist">{item.title}</h2>
+          <p class="mx-auto mt-4 max-w-xs text-sm leading-relaxed text-mist/60">{item.text}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<!-- PIEZAS DESTACADAS -->
+<section class="mx-auto max-w-7xl px-6 pb-32 lg:px-10">
+  <div class="reveal flex items-end justify-between">
+    <div>
+      <p class="text-[0.65rem] uppercase tracking-luxe text-gold-deep">{t.selection}</p>
+      <h2 class="mt-4 font-display text-4xl font-medium text-mist md:text-5xl">{t.pieces}</h2>
+    </div>
+    <a
+      href={p("/collections")}
+      class="hidden text-[0.65rem] uppercase tracking-luxe text-stone transition-colors hover:text-gold md:block"
+    >
+      {t.viewAll}
+    </a>
+  </div>
+
+  <div class="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+    {
+      featured.map((product, i) => (
+        <a
+          href={p(`/products/${product.slug}`)}
+          class:list={[
+            "reveal group block",
+            i === 1 && "reveal-delay-1",
+            i === 2 && "reveal-delay-2",
+            i === 3 && "reveal-delay-3",
+          ]}
+        >
+          <div class="relative overflow-hidden bg-cacao/30">
+            <ProductPreview images={product.images} alt={product.name} />
+            <div class="absolute inset-0 bg-gradient-to-t from-night/80 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            <span class="absolute bottom-6 left-6 translate-y-4 text-[0.6rem] uppercase tracking-luxe text-gold opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+              {t.discover}
+            </span>
+          </div>
+          <p class="mt-6 text-[0.6rem] uppercase tracking-wide-luxe text-gold-deep">
+            {getCollection(product.collectionSlug)?.name}
+          </p>
+          <h3 class="mt-2 font-display text-2xl text-mist transition-colors group-hover:text-gold">
+            {product.name}
+          </h3>
+          <p class="mt-1 text-sm text-stone">{formatPrice(product, lang)}</p>
+        </a>
+      ))
+    }
+  </div>
+</section>
+
+<!-- ORIGEN TEASER -->
+<section class="relative overflow-hidden py-40">
+  <div class="absolute inset-0" data-parallax="0.1">
+    <Image
+      src={originBg}
+      alt="The Origin"
+      class="h-[120%] w-full object-cover opacity-25"
+      widths={[800, 1600]}
+    />
+  </div>
+  <div class="absolute inset-0 bg-gradient-to-r from-night via-night/70 to-transparent"></div>
+  <div class="relative mx-auto max-w-7xl px-6 lg:px-10">
+    <div class="max-w-xl">
+      <p class="reveal text-[0.65rem] uppercase tracking-luxe text-gold-deep">{t.originKicker}</p>
+      <h2 class="reveal reveal-delay-1 mt-6 font-display text-4xl font-medium leading-tight text-mist md:text-5xl">
+        {t.originTitle}
+      </h2>
+      <p class="reveal reveal-delay-2 mt-8 text-sm leading-relaxed text-mist/70">
+        {t.originText}
+      </p>
+      <a
+        href={p("/the-origin")}
+        class="reveal reveal-delay-3 mt-10 inline-block border border-stone/40 px-8 py-3.5 text-[0.65rem] uppercase tracking-luxe text-mist transition-colors hover:border-gold-deep hover:text-gold"
+      >
+        {t.originCta}
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- AR EXPERIENCE (estructura base) -->
+<section class="mx-auto max-w-5xl px-6 py-24 lg:px-10">
+  <div class="reveal">
+    <ARPortal lang={lang} />
+  </div>
+</section>
+
+<!-- HOTEL DELIVERY -->
+<section class="mx-auto max-w-7xl px-6 py-24 lg:px-10">
+  <div class="grid items-center gap-16 lg:grid-cols-2">
+    <div class="reveal relative overflow-hidden">
+      <Image
+        src={sofitel}
+        alt="KVMI hotel delivery"
+        class="aspect-[4/3] w-full object-cover"
+        widths={[600, 1200]}
+      />
+      <div class="absolute inset-0 border border-gold-deep/30"></div>
+    </div>
+    <div>
+      <p class="reveal text-[0.65rem] uppercase tracking-luxe text-gold-deep">{t.hotelKicker}</p>
+      <h2 class="reveal reveal-delay-1 mt-6 font-display text-4xl font-medium leading-tight text-mist md:text-5xl">
+        {t.hotelTitle}
+      </h2>
+      <p class="reveal reveal-delay-2 mt-8 text-sm leading-relaxed text-mist/70">
+        {t.hotelText}
+      </p>
+      <a
+        href={p("/collections")}
+        class="reveal reveal-delay-3 bg-gold-gradient mt-10 inline-block px-8 py-3.5 text-[0.65rem] font-semibold uppercase tracking-luxe text-night transition-opacity hover:opacity-90"
+      >
+        {t.hotelCta}
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  function slowHeroVideo() {
+    const video = document.getElementById("hero-video");
+    if (video instanceof HTMLVideoElement) {
+      video.playbackRate = 0.85;
+    }
+  }
+  document.addEventListener("astro:page-load", slowHeroVideo);
+</script>

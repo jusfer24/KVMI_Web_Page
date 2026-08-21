@@ -1,0 +1,44 @@
+---
+import AuthForm from "../react/AuthForm.tsx";
+import type { Lang } from "../../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const copy = {
+  en: {
+    kicker: "Private access",
+    title: "Your account",
+    intro:
+      "Access your orders, deliveries and preferences. Members of the gallery receive early access to numbered editions.",
+  },
+  es: {
+    kicker: "Acceso privado",
+    title: "Su cuenta",
+    intro:
+      "Acceda a sus pedidos, entregas y preferencias. Los miembros de la galeria reciben acceso anticipado a las ediciones numeradas.",
+  },
+};
+
+const t = copy[lang];
+---
+
+<section class="mx-auto max-w-6xl px-6 py-24 lg:px-10">
+  <div class="grid items-center gap-16 lg:grid-cols-2">
+    <div>
+      <p class="reveal text-[0.65rem] uppercase tracking-luxe text-gold-deep">{t.kicker}</p>
+      <h1 class="reveal reveal-delay-1 mt-6 font-display text-5xl font-medium leading-tight md:text-6xl">
+        <span class="text-gold-gradient">{t.title}</span>
+      </h1>
+      <p class="reveal reveal-delay-2 mt-8 max-w-md text-sm leading-relaxed text-mist/70">
+        {t.intro}
+      </p>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <AuthForm client:load lang={lang} />
+    </div>
+  </div>
+</section>

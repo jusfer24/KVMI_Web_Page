@@ -1,0 +1,165 @@
+---
+import { getImage } from "astro:assets";
+import ProductExperience from "../react/ProductExperience.tsx";
+import ARPortal from "../ARPortal.astro";
+import { getCollection, type Product } from "../../lib/catalog";
+import { localizePath, type Lang } from "../../i18n/ui";
+
+interface Props {
+  product: Product;
+  lang: Lang;
+}
+
+const { product, lang } = Astro.props;
+const p = (path: string) => localizePath(lang, path);
+const collection = getCollection(product.collectionSlug);
+
+const copy = {
+  en: {
+    breadcrumbRoot: "Collections",
+    thePiece: "The piece",
+    includes: "The experience includes",
+    profile: "Profile",
+    delivery: "Delivery",
+    deliveryValue: "Hotel delivery and national shipping",
+    collectionLabel: "Collection",
+    edition: "Edition",
+    serialized: "Serialized numbered box",
+  },
+  es: {
+    breadcrumbRoot: "Collections",
+    thePiece: "La pieza",
+    includes: "La experiencia incluye",
+    profile: "Perfil",
+    delivery: "Entrega",
+    deliveryValue: "Entrega en hotel y envio nacional",
+    collectionLabel: "Coleccion",
+    edition: "Edicion",
+    serialized: "Caja numerada y serializada",
+  },
+};
+
+const t = copy[lang];
+
+/* Optimizamos las imagenes con el pipeline de Astro y pasamos URLs planas
+   a la isla React. */
+const optimizedImages = await Promise.all(
+  product.images.map(async (img) => {
+    const optimized = await getImage({ src: img, width: 1000, format: "webp" });
+    return optimized.src;
+  }),
+);
+
+const serialized = {
+  slug: product.slug,
+  name: product.name,
+  collection: collection?.name ?? "",
+  price: product.price,
+  currency: product.currency,
+  images: optimizedImages,
+  personalization: {
+    engraving: product.personalization.engraving,
+    wraps: product.personalization.wraps[lang],
+    ribbons: product.personalization.ribbons[lang],
+  },
+};
+---
+
+<section class="mx-auto max-w-7xl px-6 pt-16 lg:px-10">
+  <nav class="reveal text-[0.6rem] uppercase tracking-wide-luxe text-stone">
+    <a href={p("/collections")} class="transition-colors hover:text-gold">
+      {t.breadcrumbRoot}
+    </a>
+    <span class="mx-2 text-gold-deep">/</span>
+    <a
+      href={p(`/collections#${product.collectionSlug}`)}
+      class="transition-colors hover:text-gold"
+    >
+      {collection?.name}
+    </a>
+    <span class="mx-2 text-gold-deep">/</span>
+    <span class="text-mist/70">{product.name}</span>
+  </nav>
+
+  <div class="mt-10 max-w-3xl">
+    <p class="reveal text-[0.65rem] uppercase tracking-luxe text-gold-deep">
+      {collection?.name}
+    </p>
+    <h1 class="reveal reveal-delay-1 mt-4 font-display text-5xl font-medium leading-tight md:text-6xl">
+      <span class="text-gold-gradient">{product.name}</span>
+    </h1>
+    <p class="reveal reveal-delay-2 mt-4 font-display text-xl italic text-mist/70">
+      {product.tagline[lang]}
+    </p>
+  </div>
+</section>
+
+<section class="mx-auto max-w-7xl px-6 py-16 lg:px-10">
+  <ProductExperience client:load product={serialized} lang={lang} />
+</section>
+
+<section class="border-t border-white/5 bg-cacao/20">
+  <div class="mx-auto max-w-7xl px-6 py-24 lg:px-10">
+    <div class="grid gap-16 lg:grid-cols-2">
+      <div>
+        <h2 class="reveal text-[0.65rem] uppercase tracking-luxe text-gold-deep">
+          {t.thePiece}
+        </h2>
+        <p class="reveal reveal-delay-1 mt-6 text-sm leading-relaxed text-mist/70">
+          {product.description[lang]}
+        </p>
+
+        {
+          product.features && (
+            <div class="reveal reveal-delay-2 mt-10">
+              <h3 class="text-[0.6rem] uppercase tracking-wide-luxe text-stone">{t.includes}</h3>
+              <ul class="mt-4 space-y-3 text-sm text-mist/80">
+                {product.features[lang].map((feature) => (
+                  <li class="flex items-start gap-3">
+                    <span class="bg-gold-gradient mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </div>
+
+      <dl class="reveal reveal-delay-2 h-fit space-y-6 text-sm">
+        {
+          product.cacao && (
+            <div class="flex justify-between border-b border-white/5 pb-4">
+              <dt class="text-[0.6rem] uppercase tracking-wide-luxe text-stone">{t.profile}</dt>
+              <dd class="text-mist/80">{product.cacao}</dd>
+            </div>
+          )
+        }
+        <div class="flex justify-between border-b border-white/5 pb-4">
+          <dt class="text-[0.6rem] uppercase tracking-wide-luxe text-stone">{t.delivery}</dt>
+          <dd class="text-mist/80">{t.deliveryValue}</dd>
+        </div>
+        <div class="flex justify-between border-b border-white/5 pb-4">
+          <dt class="text-[0.6rem] uppercase tracking-wide-luxe text-stone">{t.collectionLabel}</dt>
+          <dd class="text-mist/80">{collection?.name}</dd>
+        </div>
+        {
+          product.serialized && (
+            <div class="flex justify-between border-b border-white/5 pb-4">
+              <dt class="text-[0.6rem] uppercase tracking-wide-luxe text-stone">{t.edition}</dt>
+              <dd class="text-gold">{t.serialized}</dd>
+            </div>
+          )
+        }
+      </dl>
+    </div>
+
+    {
+      product.hasAR && (
+        <div class="reveal mt-20">
+          <ARPortal lang={lang} variant="compact" />
+        </div>
+      )
+    }
+  </div>
+</section>

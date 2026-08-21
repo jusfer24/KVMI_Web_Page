@@ -1,0 +1,146 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/images/Logos/Logo_KVMI.png";
+import QuickCart from "./react/QuickCart.tsx";
+import { getLangFromUrl, localizePath, useTranslations } from "../i18n/ui";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+/* Site Map Visual: sin item "Home"; el logotipo enlaza al inicio. */
+const links = [
+  { href: "/the-origin", key: "nav.origin" },
+  { href: "/collections", key: "nav.collections" },
+  { href: "/el-ritual", key: "nav.ritual" },
+  { href: "/exclusive-handicrafts", key: "nav.handicrafts" },
+  { href: "/contact", key: "nav.contact" },
+] as const;
+
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
+<header class="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-night/80 backdrop-blur-md">
+  <nav class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3 lg:px-10">
+    <a
+      href={localizePath(lang, "/")}
+      aria-label="KVMI"
+      class="group flex shrink-0 items-center"
+    >
+      {/* Presencia maxima de marca; reduccion minima respetada; resaltado sutil en hover */}
+      <Image
+        src={logo}
+        alt="KVMI"
+        class="h-16 w-auto min-h-16 object-contain transition-all duration-300 ease-out group-hover:scale-105 group-hover:drop-shadow-[0_0_16px_rgba(246,211,0,0.45)]"
+        loading="eager"
+      />
+    </a>
+
+    <ul class="hidden items-center gap-7 xl:flex">
+      {
+        links.map((link) => {
+          const href = localizePath(lang, link.href);
+          return (
+            <li>
+              <a
+                href={href}
+                class:list={[
+                  "text-[0.62rem] uppercase tracking-luxe transition-colors duration-300 hover:text-gold",
+                  currentPath === href.replace(/\/$/, "") ? "text-gold" : "text-mist/80",
+                ]}
+              >
+                {t(link.key)}
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+
+    <div class="flex items-center gap-3">
+      {/* Carrito: vista rapida de la seleccion */}
+      <QuickCart client:load lang={lang} />
+
+      {/* Acceso a cuenta */}
+      <a
+        href={localizePath(lang, "/login")}
+        aria-label={t("nav.account")}
+        class="group flex h-11 w-11 items-center justify-center rounded-full border border-stone/40 transition-colors duration-300 hover:border-gold-deep"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.2"
+          class="h-4 w-4 text-mist group-hover:text-gold"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="8" r="3.5"></circle>
+          <path d="M4.5 20a7.5 7.5 0 0 1 15 0"></path>
+        </svg>
+      </a>
+
+      <button
+        id="kvmi-menu-toggle"
+        type="button"
+        aria-label="Menu"
+        aria-expanded="false"
+        class="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full border border-stone/40 xl:hidden"
+      >
+        <span class="block h-px w-5 bg-mist"></span>
+        <span class="block h-px w-5 bg-mist"></span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="kvmi-mobile-menu" class="hidden border-t border-white/5 bg-night/95 xl:hidden">
+    <ul class="flex flex-col gap-1 px-6 py-6">
+      {
+        links.map((link) => (
+          <li>
+            <a
+              href={localizePath(lang, link.href)}
+              class="block py-3 text-xs uppercase tracking-luxe text-mist/80 transition-colors hover:text-gold"
+            >
+              {t(link.key)}
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a
+          href={localizePath(lang, "/login")}
+          class="block py-3 text-xs uppercase tracking-luxe text-mist/80 transition-colors hover:text-gold"
+        >
+          {t("nav.account")}
+        </a>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<script>
+  function bindMenu() {
+    const toggle = document.getElementById("kvmi-menu-toggle");
+    const menu = document.getElementById("kvmi-mobile-menu");
+    if (!toggle || !menu || toggle.dataset.bound === "true") return;
+    toggle.dataset.bound = "true";
+
+    const closeMenu = () => {
+      menu.classList.add("hidden");
+      toggle.setAttribute("aria-expanded", "false");
+    };
+
+    toggle.addEventListener("click", () => {
+      const open = menu.classList.toggle("hidden") === false;
+      toggle.setAttribute("aria-expanded", String(open));
+    });
+
+    /* Contrae el menu movil de inmediato al elegir un destino, para que la
+       siguiente pagina se muestre sin el menu superpuesto. */
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", closeMenu);
+    });
+  }
+  bindMenu();
+  document.addEventListener("astro:page-load", bindMenu);
+</script>

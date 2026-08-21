@@ -1,0 +1,211 @@
+---
+import { Image } from "astro:assets";
+import { localizePath, type Lang } from "../../i18n/ui";
+import charm1 from "../../assets/images/Products/Charm/Charm_KVMI_1.jpg";
+import charm2 from "../../assets/images/Products/Charm/Charm_KVMI_2.jpg";
+import charm3 from "../../assets/images/Products/Charm/Charm_KVMI_3.jpg";
+import goldCharm1 from "../../assets/images/Products/Charm/Gold_KVMI_1.jpg";
+import treasureBrown from "../../assets/images/Products/Treasure/Treasure_KVMI_Brown Box.png";
+import coffeeBar from "../../assets/images/Products/Coffee_Bar_KVMI_2.jpeg";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const p = (path: string) => localizePath(lang, path);
+
+const copy = {
+  en: {
+    kicker: "Amazonian and Andean Cultural Edition",
+    title: "Exclusive Handicrafts",
+    intro:
+      "The KVMI Collection of Ecuadorian Heritage Handicrafts. Objects with history: paja toquilla, tagua, Otavalo. Luxury souvenirs for sensorial travelers.",
+    pillars: ["Ritual coffers", "Personalization", "Numbered editions", "Exclusive handicrafts"],
+    piecesTitle: "Objects with history",
+    exclusiveKicker: "Exclusive Products",
+    exclusiveTitle: "Beyond cacao",
+    reserveKicker: "By request only",
+    reserveTitle: "Handicrafts are reserved through the concierge.",
+    reserveText:
+      "Consult availability and combinations with your gallery piece through the AI Concierge or the contact page.",
+    reserveCta: "Contact the maison",
+    panamaHut: "Panama Hut",
+    panamaNote: "Paja toquilla, handwoven",
+    coffee: "Coffee",
+    coffeeNote: "Single origin, humid jungle",
+    coffers: "Ritual coffers",
+    coffersNote: "Numbered editions",
+    pieces: [
+      { title: "Artisan charm", note: "Ecuadorian goldsmithing" },
+      { title: "Gold charm", note: "Workshop edition" },
+      { title: "Artisan charm II", note: "Author series" },
+      { title: "Artisan charm III", note: "Author series" },
+    ],
+  },
+  es: {
+    kicker: "Edicion Cultural Amazonica y Andina",
+    title: "Exclusive Handicrafts",
+    intro:
+      "Coleccion KVMI de Artesanias Patrimoniales del Ecuador. Objetos con historia: paja toquilla, tagua, Otavalo. Souvenirs de lujo para viajeros sensoriales.",
+    pillars: ["Cofres rituales", "Personalizacion", "Ediciones numeradas", "Artesanias exclusivas"],
+    piecesTitle: "Objetos con historia",
+    exclusiveKicker: "Exclusive Products",
+    exclusiveTitle: "Mas alla del cacao",
+    reserveKicker: "Solo bajo pedido",
+    reserveTitle: "Las artesanias se reservan a traves del concierge.",
+    reserveText:
+      "Consulte disponibilidad y combinaciones con su pieza de la galeria a traves del AI Concierge o en la pagina de contacto.",
+    reserveCta: "Contactar a la maison",
+    panamaHut: "Panama Hut",
+    panamaNote: "Paja toquilla, tejido a mano",
+    coffee: "Coffee",
+    coffeeNote: "Origen unico, selva humeda",
+    coffers: "Cofres rituales",
+    coffersNote: "Ediciones numeradas",
+    pieces: [
+      { title: "Charm artesanal", note: "Orfebreria ecuatoriana" },
+      { title: "Charm en oro", note: "Edicion de taller" },
+      { title: "Charm artesanal II", note: "Serie de autor" },
+      { title: "Charm artesanal III", note: "Serie de autor" },
+    ],
+  },
+};
+
+const t = copy[lang];
+const pieceImages = [charm1, goldCharm1, charm2, charm3];
+---
+
+<section class="mx-auto max-w-7xl px-6 pt-24 lg:px-10">
+  <p class="reveal text-[0.65rem] uppercase tracking-luxe text-gold-deep">{t.kicker}</p>
+  <h1 class="reveal reveal-delay-1 mt-6 max-w-3xl font-display text-5xl font-medium leading-tight md:text-7xl">
+    <span class="text-gold-gradient">{t.title}</span>
+  </h1>
+  <p class="reveal reveal-delay-2 mt-8 max-w-2xl text-sm leading-relaxed text-mist/70">
+    {t.intro}
+  </p>
+
+  <ul class="reveal reveal-delay-3 mt-10 flex flex-wrap gap-3">
+    {
+      t.pillars.map((pillar) => (
+        <li class="border border-gold-deep/40 px-5 py-2 text-[0.6rem] uppercase tracking-wide-luxe text-gold">
+          {pillar}
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<!-- EXCLUSIVE PRODUCTS: Coffee, Panama Hut, Cofres -->
+<section class="mx-auto max-w-7xl px-6 py-24 lg:px-10">
+  <p class="reveal text-[0.65rem] uppercase tracking-luxe text-gold-deep">{t.exclusiveKicker}</p>
+  <h2 class="reveal reveal-delay-1 mt-4 font-display text-3xl font-medium text-mist md:text-4xl">
+    {t.exclusiveTitle}
+  </h2>
+  <div class="mt-12 grid gap-8 md:grid-cols-3">
+    <!-- Panama Hut: recurso no disponible, placeholder SVG de fidelidad visual -->
+    <figure class="reveal group">
+      <div class="relative flex aspect-square items-center justify-center overflow-hidden border border-white/10 bg-cacao/30">
+        <svg viewBox="0 0 200 140" class="h-2/3 w-2/3" aria-hidden="true">
+          <defs>
+            <linearGradient id="kvmi-hat-gold" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#B28A00"></stop>
+              <stop offset="50%" stop-color="#F6D300"></stop>
+              <stop offset="100%" stop-color="#CE8B00"></stop>
+            </linearGradient>
+          </defs>
+          <ellipse cx="100" cy="98" rx="88" ry="22" fill="none" stroke="url(#kvmi-hat-gold)" stroke-width="1.5"></ellipse>
+          <path d="M52 96 C 52 58, 68 40, 100 40 C 132 40, 148 58, 148 96" fill="none" stroke="url(#kvmi-hat-gold)" stroke-width="1.5"></path>
+          <path d="M52 84 C 76 92, 124 92, 148 84" fill="none" stroke="url(#kvmi-hat-gold)" stroke-width="1" opacity="0.7"></path>
+          <path d="M64 52 C 88 60, 112 60, 136 52" fill="none" stroke="url(#kvmi-hat-gold)" stroke-width="0.8" opacity="0.5"></path>
+        </svg>
+        <div class="absolute inset-0 border border-gold-deep/0 transition-colors duration-500 group-hover:border-gold-deep/40"></div>
+      </div>
+      <figcaption class="mt-5">
+        <p class="font-display text-xl text-mist">{t.panamaHut}</p>
+        <p class="mt-1 text-[0.6rem] uppercase tracking-wide-luxe text-stone">{t.panamaNote}</p>
+      </figcaption>
+    </figure>
+
+    <figure class="reveal reveal-delay-1 group">
+      <div class="relative overflow-hidden bg-cacao/30">
+        <Image
+          src={coffeeBar}
+          alt={t.coffee}
+          class="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          widths={[400, 800]}
+        />
+        <div class="absolute inset-0 border border-gold-deep/0 transition-colors duration-500 group-hover:border-gold-deep/40"></div>
+      </div>
+      <figcaption class="mt-5">
+        <p class="font-display text-xl text-mist">{t.coffee}</p>
+        <p class="mt-1 text-[0.6rem] uppercase tracking-wide-luxe text-stone">{t.coffeeNote}</p>
+      </figcaption>
+    </figure>
+
+    <figure class="reveal reveal-delay-2 group">
+      <div class="relative overflow-hidden bg-cacao/30">
+        <Image
+          src={treasureBrown}
+          alt={t.coffers}
+          class="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          widths={[400, 800]}
+        />
+        <div class="absolute inset-0 border border-gold-deep/0 transition-colors duration-500 group-hover:border-gold-deep/40"></div>
+      </div>
+      <figcaption class="mt-5">
+        <p class="font-display text-xl text-mist">{t.coffers}</p>
+        <p class="mt-1 text-[0.6rem] uppercase tracking-wide-luxe text-stone">{t.coffersNote}</p>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- OBJETOS CON HISTORIA -->
+<section class="mx-auto max-w-7xl px-6 pb-24 lg:px-10">
+  <h2 class="reveal font-display text-3xl font-medium text-mist md:text-4xl">
+    {t.piecesTitle}
+  </h2>
+  <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+    {
+      t.pieces.map((piece, i) => (
+        <figure
+          class:list={[
+            "reveal group",
+            i % 4 === 1 && "reveal-delay-1",
+            i % 4 === 2 && "reveal-delay-2",
+            i % 4 === 3 && "reveal-delay-3",
+          ]}
+        >
+          <div class="relative overflow-hidden bg-cacao/30">
+            <Image
+              src={pieceImages[i]}
+              alt={piece.title}
+              class="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              widths={[400, 800]}
+            />
+            <div class="absolute inset-0 border border-gold-deep/0 transition-colors duration-500 group-hover:border-gold-deep/40" />
+          </div>
+          <figcaption class="mt-5">
+            <p class="font-display text-xl text-mist">{piece.title}</p>
+            <p class="mt-1 text-[0.6rem] uppercase tracking-wide-luxe text-stone">{piece.note}</p>
+          </figcaption>
+        </figure>
+      ))
+    }
+  </div>
+
+  <div class="reveal mt-24 border border-white/10 bg-cacao/20 px-8 py-14 text-center">
+    <p class="text-[0.65rem] uppercase tracking-luxe text-gold-deep">{t.reserveKicker}</p>
+    <h2 class="mx-auto mt-5 max-w-xl font-display text-3xl font-medium text-mist">
+      {t.reserveTitle}
+    </h2>
+    <p class="mx-auto mt-5 max-w-lg text-sm text-mist/60">{t.reserveText}</p>
+    <a
+      href={p("/contact")}
+      class="mt-8 inline-block border border-stone/40 px-8 py-3.5 text-[0.65rem] uppercase tracking-luxe text-mist transition-colors hover:border-gold-deep hover:text-gold"
+    >
+      {t.reserveCta}
+    </a>
+  </div>
+</section>

@@ -1,0 +1,27 @@
+---
+import CheckoutFlow from "../react/CheckoutFlow.tsx";
+import type { Lang } from "../../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const copy = {
+  en: { kicker: "Checkout", title: "Your selection" },
+  es: { kicker: "Checkout", title: "Su seleccion" },
+};
+
+const t = copy[lang];
+---
+
+<section class="mx-auto max-w-6xl px-6 py-20 lg:px-10">
+  <p class="reveal text-[0.65rem] uppercase tracking-luxe text-gold-deep">{t.kicker}</p>
+  <h1 class="reveal reveal-delay-1 mt-6 font-display text-5xl font-medium leading-tight md:text-6xl">
+    <span class="text-gold-gradient">{t.title}</span>
+  </h1>
+  <div class="mt-12">
+    <CheckoutFlow client:load lang={lang} />
+  </div>
+</section>

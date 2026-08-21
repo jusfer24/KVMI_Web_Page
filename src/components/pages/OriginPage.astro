@@ -1,0 +1,149 @@
+---
+import { Image } from "astro:assets";
+import { localizePath, type Lang } from "../../i18n/ui";
+import heroBg from "../../assets/images/History/History_KVMI_BG_2.jpg";
+import river1 from "../../assets/images/History/River_Chocolate_KVMI_1.jpeg";
+import river2 from "../../assets/images/History/River_Chocolate_KVMI_2.jpeg";
+import river3 from "../../assets/images/History/River_Chocolate_KVMI_3.jpg";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const p = (path: string) => localizePath(lang, path);
+
+const copy = {
+  en: {
+    kicker: "The Origin",
+    heroA: "Where the cacao",
+    heroB: "of the tribe chiefs is born.",
+    heroText:
+      "Deep in the Amazon, cacao grows in hidden microlots between humidity, shadow and silence. For centuries it was the privilege of tribe chiefs: a source of clarity, energy and spiritual connection with the jungle.",
+    legendKicker: "The legend",
+    legend:
+      "A long time ago, cacao was known as the food of the gods, and only a few people were considered worthy to consume it. A white cocoa-based drink was prepared as a tribute to the tribe chief. It was said that this special beverage gave the chief unimaginable pleasure, energy, and clarity to guide his tribe. Today, this exclusive cocoa seed is highly sought after for its delicate flavor, reminiscent of almonds with fruity and floral notes.",
+    poems: [
+      "Before flavor, there was shadow. Before aroma, there was root. Cacao is not born: it emerges.",
+      "This fruit is not harvested: it is invoked. KVMI consecrates it as offering, as origin, as destiny.",
+      "Those who taste KVMI do not taste: they remember. Because true flavor lives in the story.",
+    ],
+    values: ["Power", "Energy", "Clarity", "Terroir: the Amazon"],
+    ctaKicker: "The next chapter",
+    ctaTitle: "The story continues in every piece of the gallery.",
+    cta: "Enter the collections",
+  },
+  es: {
+    kicker: "The Origin",
+    heroA: "Donde nace el cacao",
+    heroB: "de los jefes de tribu.",
+    heroText:
+      "En lo profundo del Amazonas, el cacao crece en microlotes ocultos entre humedad, sombra y silencio. Durante siglos fue privilegio de los jefes de tribu: fuente de claridad, energia y conexion espiritual con la selva.",
+    legendKicker: "La leyenda",
+    legend:
+      "Hace mucho tiempo, el cacao era conocido como el alimento de los dioses, y solo unos pocos eran considerados dignos de consumirlo. Una bebida blanca a base de cacao se preparaba como tributo al jefe de la tribu. Se decia que esta bebida especial daba al jefe un placer, una energia y una claridad inimaginables para guiar a su tribu. Hoy, esta semilla exclusiva de cacao es altamente codiciada por su sabor delicado, que recuerda a las almendras con notas frutales y florales.",
+    poems: [
+      "Antes del sabor, hubo sombra. Antes del aroma, hubo raiz. El cacao no nace: emerge.",
+      "Este fruto no se cosecha: se invoca. KVMI lo consagra como ofrenda, como origen, como destino.",
+      "Quien prueba KVMI no degusta: recuerda. Porque el sabor verdadero esta en la historia.",
+    ],
+    values: ["Poder", "Energia", "Claridad", "Terruño: la Amazonia"],
+    ctaKicker: "El siguiente capitulo",
+    ctaTitle: "La historia continua en cada pieza de la galeria.",
+    cta: "Entrar a las colecciones",
+  },
+};
+
+const t = copy[lang];
+const chapterImages = [river1, river2, river3];
+---
+
+<!-- HERO -->
+<section class="relative flex h-[70vh] items-end overflow-hidden">
+  <div class="absolute inset-0" data-parallax="0.08">
+    <Image
+      src={heroBg}
+      alt="The Origin"
+      class="h-[115%] w-full object-cover opacity-35"
+      widths={[800, 1600]}
+      loading="eager"
+    />
+  </div>
+  <div class="absolute inset-0 bg-gradient-to-b from-night/40 via-transparent to-night"></div>
+  <div class="relative mx-auto w-full max-w-7xl px-6 pb-20 lg:px-10">
+    <p class="reveal text-[0.65rem] uppercase tracking-luxe text-gold-deep">{t.kicker}</p>
+    <h1 class="reveal reveal-delay-1 mt-6 max-w-3xl font-display text-5xl font-medium leading-tight md:text-7xl">
+      <span class="text-gold-gradient">{t.heroA}</span><br />
+      <span class="text-mist">{t.heroB}</span>
+    </h1>
+    <p class="reveal reveal-delay-2 mt-8 max-w-xl text-sm leading-relaxed text-mist/70">
+      {t.heroText}
+    </p>
+  </div>
+</section>
+
+<!-- LA LEYENDA -->
+<section class="mx-auto max-w-4xl px-6 py-28 text-center">
+  <p class="reveal text-[0.65rem] uppercase tracking-luxe text-gold-deep">{t.legendKicker}</p>
+  <div class="gold-rule reveal mx-auto mt-8 w-24"></div>
+  <p class="reveal reveal-delay-1 mt-10 font-display text-xl font-medium leading-relaxed text-mist/90 md:text-2xl">
+    {t.legend}
+  </p>
+  <ul class="reveal reveal-delay-2 mt-12 flex flex-wrap justify-center gap-4">
+    {
+      t.values.map((value) => (
+        <li class="border border-gold-deep/40 px-6 py-2.5 text-[0.65rem] uppercase tracking-luxe text-gold">
+          {value}
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<!-- POEMAS INTERCALADOS CON IMAGENES DEL ORIGEN -->
+<section class="mx-auto max-w-7xl px-6 pb-32 lg:px-10">
+  <div class="space-y-32">
+    {
+      t.poems.map((poem, i) => (
+        <div
+          class:list={[
+            "grid items-center gap-12 lg:grid-cols-2 lg:gap-20",
+            i % 2 === 1 && "lg:[&>*:first-child]:order-2",
+          ]}
+        >
+          <div class="reveal relative overflow-hidden">
+            <Image
+              src={chapterImages[i]}
+              alt=""
+              class="aspect-[4/3] w-full object-cover"
+              widths={[600, 1200]}
+            />
+            <div class="absolute inset-0 border border-gold-deep/20" />
+          </div>
+          <div>
+            <p class="reveal font-display text-6xl text-gold-deep/40">
+              {["I", "II", "III"][i]}
+            </p>
+            <p class="reveal reveal-delay-1 mt-6 max-w-lg font-display text-2xl font-medium leading-relaxed text-gold-gradient md:text-3xl">
+              {poem}
+            </p>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="border-t border-white/5 bg-cacao/20 py-24 text-center">
+  <p class="reveal text-[0.65rem] uppercase tracking-luxe text-gold-deep">{t.ctaKicker}</p>
+  <h2 class="reveal reveal-delay-1 mx-auto mt-6 max-w-2xl px-6 font-display text-3xl font-medium text-mist md:text-4xl">
+    {t.ctaTitle}
+  </h2>
+  <a
+    href={p("/collections")}
+    class="reveal reveal-delay-2 bg-gold-gradient mt-10 inline-block px-10 py-4 text-[0.65rem] font-semibold uppercase tracking-luxe text-night transition-opacity hover:opacity-90"
+  >
+    {t.cta}
+  </a>
+</section>
