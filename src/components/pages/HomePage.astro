@@ -290,6 +290,12 @@ const t = copy[lang];
   function slowHeroVideo() {
     const video = document.getElementById("hero-video");
     if (video instanceof HTMLVideoElement) {
+      /* La propiedad "muted" en vivo no siempre se reaplica en las
+         transiciones SPA de Astro (ClientRouter): se reafirma aqui ademas
+         del atributo HTML para que el audio nunca se filtre al volver a esta
+         pagina, por ejemplo desde la confirmacion de un pedido. */
+      video.defaultMuted = true;
+      video.muted = true;
       video.playbackRate = 0.85;
     }
   }
