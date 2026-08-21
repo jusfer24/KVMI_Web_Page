@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(astro dev *)",
+      "Bash(netstat -ano)",
+      "Bash(curl -sS -m 5 http://localhost:4321/ -o /dev/null -w \"port 4321 -> HTTP_STATUS:%{http_code}\\\\n\")",
+      "Bash(curl -sS -m 45 -X POST http://127.0.0.1:8000/api/concierge/ -H \"Content-Type: application/json\" -d '{\"query\":\"algo de edicion limitada\"}' -w \"\\\\nHTTP_STATUS:%{http_code} TIME:%{time_total}s\\\\n\")"
+    ]
+  }
+}
