@@ -213,7 +213,7 @@ export default function Concierge({ lang: initialLang }: Props) {
                   key={s}
                   type="button"
                   onClick={() => send(s)}
-                  className="border border-white/10 px-3 py-1.5 text-[0.6rem] text-stone transition-colors hover:border-gold-deep hover:text-gold"
+                  className="rounded-full border border-white/10 px-3 py-1.5 text-[0.6rem] text-stone transition-colors hover:border-gold-deep hover:text-gold"
                 >
                   {s}
                 </button>
@@ -235,7 +235,7 @@ export default function Concierge({ lang: initialLang }: Props) {
               />
               <button
                 type="submit"
-                className="bg-gold-gradient px-4 py-2.5 text-[0.6rem] font-semibold uppercase tracking-wide-luxe text-night transition-opacity hover:opacity-90"
+                className="rounded-full bg-gold-gradient px-4 py-2.5 text-[0.6rem] font-semibold uppercase tracking-wide-luxe text-night transition-opacity hover:opacity-90"
               >
                 {t.send}
               </button>
@@ -248,7 +248,7 @@ export default function Concierge({ lang: initialLang }: Props) {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-label={t.open}
-        className="group flex items-center gap-3 border border-gold-deep/60 bg-night/90 px-5 py-3 backdrop-blur-md transition-colors duration-300 hover:border-gold"
+        className="group flex items-center gap-3 rounded-full border border-gold-deep/60 bg-night/90 px-5 py-3 backdrop-blur-md transition-colors duration-300 hover:border-gold"
       >
         <span className="bg-gold-gradient h-2 w-2 rounded-full"></span>
         <span className="text-[0.6rem] uppercase tracking-luxe text-mist group-hover:text-gold">

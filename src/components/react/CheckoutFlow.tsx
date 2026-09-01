@@ -266,7 +266,7 @@ export default function CheckoutFlow({ lang }: Props) {
               <p className="text-sm text-stone">{t.empty}</p>
               <a
                 href={`${prefix}/collections`}
-                className="bg-gold-gradient mt-8 inline-block px-8 py-3.5 text-[0.65rem] font-semibold uppercase tracking-luxe text-night transition-opacity hover:opacity-90"
+                className="rounded-full bg-gold-gradient mt-8 inline-block px-8 py-3.5 text-[0.65rem] font-semibold uppercase tracking-luxe text-night transition-opacity hover:opacity-90"
               >
                 {t.explore}
               </a>
@@ -332,7 +332,7 @@ export default function CheckoutFlow({ lang }: Props) {
                 <button
                   type="button"
                   onClick={() => setStep("delivery")}
-                  className="bg-gold-gradient px-10 py-4 text-[0.65rem] font-semibold uppercase tracking-luxe text-night transition-opacity hover:opacity-90"
+                  className="rounded-full bg-gold-gradient px-10 py-4 text-[0.65rem] font-semibold uppercase tracking-luxe text-night transition-opacity hover:opacity-90"
                 >
                   {t.continueDelivery}
                 </button>
@@ -468,13 +468,13 @@ export default function CheckoutFlow({ lang }: Props) {
               <button
                 type="button"
                 onClick={() => setStep("bag")}
-                className="border border-stone/40 px-8 py-4 text-[0.65rem] uppercase tracking-luxe text-mist transition-colors hover:border-gold-deep hover:text-gold"
+                className="rounded-full border border-stone/40 px-8 py-4 text-[0.65rem] uppercase tracking-luxe text-mist transition-colors hover:border-gold-deep hover:text-gold"
               >
                 {t.backToBag}
               </button>
               <button
                 type="submit"
-                className="bg-gold-gradient flex-1 px-8 py-4 text-[0.65rem] font-semibold uppercase tracking-luxe text-night transition-opacity hover:opacity-90"
+                className="rounded-full bg-gold-gradient flex-1 px-8 py-4 text-[0.65rem] font-semibold uppercase tracking-luxe text-night transition-opacity hover:opacity-90"
               >
                 {t.continuePayment}
               </button>
@@ -551,14 +551,14 @@ export default function CheckoutFlow({ lang }: Props) {
               <button
                 type="button"
                 onClick={() => setStep("delivery")}
-                className="border border-stone/40 px-8 py-4 text-[0.65rem] uppercase tracking-luxe text-mist transition-colors hover:border-gold-deep hover:text-gold"
+                className="rounded-full border border-stone/40 px-8 py-4 text-[0.65rem] uppercase tracking-luxe text-mist transition-colors hover:border-gold-deep hover:text-gold"
               >
                 {t.backToDelivery}
               </button>
               <button
                 type="submit"
                 disabled={!cardName.trim() || cardNumber.replace(/\s/g, "").length < 12}
-                className="bg-gold-gradient flex-1 px-8 py-4 text-[0.65rem] font-semibold uppercase tracking-luxe text-night transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+                className="rounded-full bg-gold-gradient flex-1 px-8 py-4 text-[0.65rem] font-semibold uppercase tracking-luxe text-night transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {t.confirmOrder}
               </button>
@@ -636,7 +636,7 @@ export default function CheckoutFlow({ lang }: Props) {
 
           <a
             href={`${prefix}/`}
-            className="mt-12 inline-block border border-stone/40 px-10 py-4 text-[0.65rem] uppercase tracking-luxe text-mist transition-colors hover:border-gold-deep hover:text-gold"
+            className="mt-12 inline-block rounded-full border border-stone/40 px-10 py-4 text-[0.65rem] uppercase tracking-luxe text-mist transition-colors hover:border-gold-deep hover:text-gold"
           >
             {t.backToGallery}
           </a>

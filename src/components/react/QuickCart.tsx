@@ -105,7 +105,7 @@ export default function QuickCart({ lang }: Props) {
               <p className="text-sm text-stone">{t.empty}</p>
               <a
                 href={`${prefix}/collections`}
-                className="mt-6 inline-block border border-stone/40 px-6 py-2.5 text-[0.6rem] uppercase tracking-wide-luxe text-mist transition-colors hover:border-gold-deep hover:text-gold"
+                className="mt-6 inline-block rounded-full border border-stone/40 px-6 py-2.5 text-[0.6rem] uppercase tracking-wide-luxe text-mist transition-colors hover:border-gold-deep hover:text-gold"
               >
                 {t.explore}
               </a>
@@ -144,7 +144,7 @@ export default function QuickCart({ lang }: Props) {
                 </p>
                 <a
                   href={`${prefix}/checkout`}
-                  className="bg-gold-gradient mt-4 block px-6 py-3 text-center text-[0.6rem] font-semibold uppercase tracking-wide-luxe text-night transition-opacity hover:opacity-90"
+                  className="rounded-full bg-gold-gradient mt-4 block px-6 py-3 text-center text-[0.6rem] font-semibold uppercase tracking-wide-luxe text-night transition-opacity hover:opacity-90"
                 >
                   {t.checkout}
                 </a>

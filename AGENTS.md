@@ -19,7 +19,7 @@ Consult these guides before working on related tasks:
 **Backend & Data Ecosystem**
 - [Django Stable Documentation](https://docs.djangoproject.com/en/stable/)
 - [Django Database Models & Relations](https://docs.djangoproject.com/en/stable/topics/db/models/)
-- [SQL Server (T-SQL) Reference](https://learn.microsoft.com/en-us/sql/t-sql/language-reference)
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
 - [MongoDB PyMongo Documentation](https://pymongo.readthedocs.io/en/stable/)
 - [MongoDB integration patterns with Django](https://www.mongodb.com/developer/languages/python/django/)
 
@@ -28,11 +28,11 @@ Consult these guides before working on related tasks:
 ### Fase 1
 *   **Frontend:** Astro (v5.x) para enrutamiento y SSR, React (v18.x / v19.x) para componentes interactivos, Tailwind CSS (v3.4+) para estilos.
 *   **Backend:** Django (v5.x) con Python (v3.12+).
-*   **Base de Datos:** **Exclusivamente SQL Server.** Durante el MVP, toda la informacion de usuarios, autenticacion y el flujo transaccional del Checkout operaran sobre esquemas relacionales para garantizar integridad inmediata.
+*   **Base de Datos:** **Exclusivamente PostgreSQL** Durante el MVP, toda la informacion de usuarios, autenticacion y el flujo transaccional del Checkout operaran sobre esquemas relacionales para garantizar integridad inmediata.
 
 ### Fase 2
 *   **Integracion de MongoDB:** Se anadira MongoDB a la infraestructura de Django utilizando `DATABASE_ROUTERS`.
-*   **Distribucion de Carga:** SQL Server protegera los datos transaccionales. MongoDB se encargara del catalogo masivo de productos y servira como infraestructura de alta velocidad. 
+*   **Distribucion de Carga:** PostgreSQL protegera los datos transaccionales. MongoDB se encargara del catalogo masivo de productos y servira como infraestructura de alta velocidad. 
 <!-- para el streaming de coordenadas, scripts en C# y modelos tridimensionales hacia las experiencias inmersivas desarrolladas en Unity. -->
 
 ## Development 

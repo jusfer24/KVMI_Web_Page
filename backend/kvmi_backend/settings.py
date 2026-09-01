@@ -1,7 +1,7 @@
 """
 Configuracion Django del backend KVMI.
 
-Fase 1 (MVP): SQL Server como unica base de datos. Usuarios, autenticacion y
+Fase 1 (MVP): PostgreSQL como unica base de datos. Usuarios, autenticacion y
 el flujo transaccional del checkout operan sobre esquemas relacionales.
 
 Fase 2: se anadira MongoDB via DATABASE_ROUTERS para el catalogo masivo y los
@@ -27,9 +27,15 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "corsheaders",
+    "rest_framework",
+    "django_filters",
     "catalog",
     "orders",
     "concierge",
+    "users",
+    "catalogue",
+    "commerce",
+    "logistics",
 ]
 
 MIDDLEWARE = [
@@ -63,9 +69,9 @@ TEMPLATES = [
 WSGI_APPLICATION = "kvmi_backend.wsgi.application"
 ASGI_APPLICATION = "kvmi_backend.asgi.application"
 
-# Base de datos: exclusivamente SQL Server durante la Fase 1 (CLAUDE.md).
+# Base de datos: exclusivamente PostgreSQL durante la Fase 1 (CLAUDE.md).
 # USE_SQLITE_FOR_DEV es una salida de emergencia local, solo para levantar el
-# servidor sin una instancia de SQL Server configurada. Vive unicamente en
+# servidor sin una instancia de PostgreSQL configurada. Vive unicamente en
 # .env (no versionado) y nunca debe activarse fuera de una maquina de
 # desarrollo individual.
 if os.getenv("USE_SQLITE_FOR_DEV", "False").lower() == "true":
@@ -78,15 +84,12 @@ if os.getenv("USE_SQLITE_FOR_DEV", "False").lower() == "true":
 else:
     DATABASES = {
         "default": {
-            "ENGINE": "mssql",
-            "NAME": os.getenv("MSSQL_DB_NAME", "kvmi"),
-            "USER": os.getenv("MSSQL_DB_USER", ""),
-            "PASSWORD": os.getenv("MSSQL_DB_PASSWORD", ""),
-            "HOST": os.getenv("MSSQL_DB_HOST", "localhost"),
-            "PORT": os.getenv("MSSQL_DB_PORT", "1433"),
-            "OPTIONS": {
-                "driver": os.getenv("MSSQL_ODBC_DRIVER", "ODBC Driver 17 for SQL Server"),
-            },
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.getenv("POSTGRES_DB", "kvmi"),
+            "USER": os.getenv("POSTGRES_USER", ""),
+            "PASSWORD": os.getenv("POSTGRES_PASSWORD", ""),
+            "HOST": os.getenv("POSTGRES_HOST", "localhost"),
+            "PORT": os.getenv("POSTGRES_PORT", "5432"),
         }
     }
 
@@ -107,3 +110,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # CORS: el frontend Astro corre en un origen distinto durante el desarrollo.
 CORS_ALLOWED_ORIGINS = [os.getenv("FRONTEND_ORIGIN", "http://localhost:4321")]
+
+REST_FRAMEWORK = {
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 20,
+}

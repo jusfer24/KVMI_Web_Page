@@ -122,7 +122,7 @@ export default function ProductExperience({ product, lang }: Props) {
               onClick={() => setActiveImage(i)}
               aria-label={`${t.viewImage} ${i + 1}`}
               className={
-                "overflow-hidden border transition-colors duration-300 " +
+                "overflow-hidden rounded-full border transition-colors duration-300 " +
                 (i === activeImage
                   ? "border-gold-deep"
                   : "border-white/10 hover:border-stone/50")
@@ -168,7 +168,7 @@ export default function ProductExperience({ product, lang }: Props) {
                 type="button"
                 onClick={() => setWrap(option)}
                 className={
-                  "border px-5 py-2.5 text-xs transition-colors duration-300 " +
+                  "rounded-full border px-5 py-2.5 text-xs transition-colors duration-300 " +
                   (wrap === option
                     ? "border-gold-deep text-gold"
                     : "border-white/10 text-stone hover:border-stone/50")
@@ -189,7 +189,7 @@ export default function ProductExperience({ product, lang }: Props) {
                 type="button"
                 onClick={() => setRibbon(option)}
                 className={
-                  "border px-5 py-2.5 text-xs transition-colors duration-300 " +
+                  "rounded-full border px-5 py-2.5 text-xs transition-colors duration-300 " +
                   (ribbon === option
                     ? "border-gold-deep text-gold"
                     : "border-white/10 text-stone hover:border-stone/50")
@@ -225,13 +225,13 @@ export default function ProductExperience({ product, lang }: Props) {
               <button
                 type="button"
                 onClick={handleAdd}
-                className="bg-gold-gradient flex-1 px-8 py-4 text-[0.65rem] font-semibold uppercase tracking-luxe text-night transition-opacity hover:opacity-90"
+                className="rounded-full bg-gold-gradient flex-1 px-8 py-4 text-[0.65rem] font-semibold uppercase tracking-luxe text-night transition-opacity hover:opacity-90"
               >
                 {added ? t.added : t.add}
               </button>
               <a
                 href={`${prefix}/checkout`}
-                className="flex-1 border border-stone/40 px-8 py-4 text-center text-[0.65rem] uppercase tracking-luxe text-mist transition-colors hover:border-gold-deep hover:text-gold"
+                className="flex-1 rounded-full border border-stone/40 px-8 py-4 text-center text-[0.65rem] uppercase tracking-luxe text-mist transition-colors hover:border-gold-deep hover:text-gold"
               >
                 {t.checkout}
               </a>
@@ -243,7 +243,7 @@ export default function ProductExperience({ product, lang }: Props) {
             <p className="text-sm leading-relaxed text-mist/70">{t.requestNote}</p>
             <a
               href={`${prefix}/contact`}
-              className="bg-gold-gradient mt-6 inline-block px-8 py-4 text-[0.65rem] font-semibold uppercase tracking-luxe text-night transition-opacity hover:opacity-90"
+              className="rounded-full bg-gold-gradient mt-6 inline-block px-8 py-4 text-[0.65rem] font-semibold uppercase tracking-luxe text-night transition-opacity hover:opacity-90"
             >
               {t.requestCta}
             </a>

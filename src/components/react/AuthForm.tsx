@@ -81,7 +81,7 @@ export default function AuthForm({ lang }: Props) {
 
   return (
     <div className="border border-white/10 bg-cacao/20 p-8 md:p-10">
-      <div className="flex border border-white/10">
+      <div className="flex overflow-hidden rounded-full border border-white/10">
         {(["login", "register"] as const).map((m) => (
           <button
             key={m}
@@ -168,7 +168,7 @@ export default function AuthForm({ lang }: Props) {
 
         <button
           type="submit"
-          className="bg-gold-gradient w-full px-8 py-4 text-[0.65rem] font-semibold uppercase tracking-luxe text-night transition-opacity hover:opacity-90"
+          className="rounded-full bg-gold-gradient w-full px-8 py-4 text-[0.65rem] font-semibold uppercase tracking-luxe text-night transition-opacity hover:opacity-90"
         >
           {mode === "login" ? t.submitLogin : t.submitRegister}
         </button>
@@ -184,7 +184,7 @@ export default function AuthForm({ lang }: Props) {
         type="button"
         data-sso-provider="google"
         onClick={() => setMessage({ text: t.googleNote, error: false })}
-        className="flex w-full items-center justify-center gap-3 border border-stone/40 px-8 py-4 text-[0.65rem] uppercase tracking-wide-luxe text-mist transition-colors hover:border-gold-deep hover:text-gold"
+        className="flex w-full items-center justify-center gap-3 rounded-full border border-stone/40 px-8 py-4 text-[0.65rem] uppercase tracking-wide-luxe text-mist transition-colors hover:border-gold-deep hover:text-gold"
       >
         <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
           <path
